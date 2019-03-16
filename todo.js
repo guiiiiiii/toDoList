@@ -20,12 +20,9 @@ function deleteToDo(event){
 function saveToDos(){
     //JSON.stringify은 js의 date type(object)을 string으로 변환해줌
     //localstorage에는 string만 사용할 수 있기 때문
-    if(toDos.length>4){
-        alert("4개까지만 저장할수 있어요!");
-    }
-    else{
-        localStorage.setItem(TODOS_LS,JSON.stringify(toDos));
-    }
+    
+    localStorage.setItem(TODOS_LS,JSON.stringify(toDos));
+    
 }
 
 function paintToDo(text){
@@ -39,13 +36,18 @@ function paintToDo(text){
     li.appendChild(span);
     li.appendChild(delBtn);
     li.id=newId;
-    toDoList.appendChild(li);
-    const toDoObj={
-        text:text,
-        id:newId
-    };
+    if(toDos.length>=4){
+        alert("4개까지만 저장할수 있어요!");
+    }
+    else{
+        toDoList.appendChild(li);
+        const toDoObj={
+            text:text,
+            id:newId
+        };
     toDos.push(toDoObj);
     saveToDos();
+    }
 }
 
 function handleSubmit(event){
