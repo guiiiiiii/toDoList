@@ -1,9 +1,30 @@
 const toDoForm=document.querySelector(".js-toDoForm"),
-    toDoInput=toDoForm.querySelector("input"),
-    toDoList=document.querySelector(".js-toDoList");
+    toDoInput=toDoForm.querySelector(".todo"),
+    toDoList=document.querySelector(".js-toDoList"),
+    toDoImportant=toDoForm.querySelector(".star"),
+    toDoDate=toDoForm.querySelector(".date");
 
 const TODOS_LS='toDos';
 let toDos=[]
+
+
+
+function updateToDo(event){
+    const upBtn=event.target;
+    
+}
+
+function finishToDo(event){
+    const finBtn=event.target;
+    const li=finBtn.parentNode;
+    li.classList.toggle('todoFinsh');
+
+    const cleanToDos=toDos.filter(function(toDo){
+        return toDo.id !== parseInt(li.id);
+    });
+    toDos=cleanToDos;
+    saveToDos();
+}
 
 function deleteToDo(event){
     const btn=event.target;
@@ -25,35 +46,51 @@ function saveToDos(){
     
 }
 
-function paintToDo(text){
+function paintToDo(date,text,importance){
     const li=document.createElement('li');
     const delBtn =document.createElement("button");
+    const finishBtn=document.createElement("button");
+    const updateBtn=document.createElement("button");
     const span=document.createElement('span');
+    const spanStar=document.createElement('span');
+    const spanDate=document.createElement('span');
     const newId=toDos.length+1;
-    delBtn.innerText="delete";
+    
+    delBtn.innerText="❌";
     delBtn.addEventListener("click",deleteToDo);
+    finishBtn.innerText="✔️";
+    finishBtn.addEventListener("click",finishToDo);
+    updateBtn.innerText='✏️';
+    updateBtn.addEventListener("click",updateToDo);
     span.innerText=text;
+    spanStar.innerText=importance;
+    spanDate.innerText=date;
+    li.appendChild(spanStar);
+    li.appendChild(spanDate);
     li.appendChild(span);
     li.appendChild(delBtn);
+    li.appendChild(finishBtn);
+    li.appendChild(updateBtn);
     li.id=newId;
-    if(toDos.length>=4){
-        alert("4개까지만 저장할수 있어요!");
-    }
-    else{
-        toDoList.appendChild(li);
-        const toDoObj={
-            text:text,
-            id:newId
-        };
+    toDoList.appendChild(li);
+    const toDoObj={
+        text:text,
+        id:newId,
+        importance:importance,
+        date:date
+    };
     toDos.push(toDoObj);
     saveToDos();
-    }
+    
 }
 
 function handleSubmit(event){
     event.preventDefault();
     const currentValue=toDoInput.value;
-    paintToDo(currentValue);
+    const importance=toDoImportant.options[toDoImportant.selectedIndex].text;
+    const date=toDoDate.value;
+
+    paintToDo(date,currentValue,importance);
     toDoInput.value=""; //add submit event
 
 
@@ -65,7 +102,7 @@ function loadToDos(){
         //localstorage에서 가져온것은 또한 string이므로 다시 변환
         const parseToDos=JSON.parse(loadedToDos);
         parseToDos.forEach(function(toDo){
-            paintToDo(toDo.text);
+            paintToDo(toDo.date,toDo.text,toDo.importance);
         });
     }
 }

@@ -9,18 +9,27 @@
 </head>
 
 <body style="font-family: 'Poor Story';">
+
+
+    <!--시계-->
+    <div class='js-clock'>
+        <h1 style="color:#dcdde1;">00:00</h1>
+    </div>
     <!--이름을 입력받거나, 이름정보가 있을 시 인삿말 출력-->
     <form class='js-form form'>
         <input type='text' placeholder="what is your name" />
     </form>
-    <h4 class='js-greetings greetings'></h4>
-    <!--시계-->
-    <div class='js-clock'>
-        <h1>00:00</h1>
-    </div>
+    <h4 class='js-greetings greetings' style="font-size: 50px;"></h4>
     <!--할일 입력-->
     <form class='js-toDoForm'>
-        <input type='text' placeholder="Write a todo" />
+        <select class='star'>
+            <option value='5'>⭐⭐⭐⭐⭐</option>
+            <option value='3'>⭐⭐⭐</option>
+            <option value='1' selected>⭐</option>
+        </select>
+        <input type="date" class='date' placeholder="dd/mm/yyyy" style="width:200px;"></div>
+
+        <input type='text' class='todo' placeholder="Write a todo" />
     </form>
     <!--할일 리스트 보여주기-->
     <ul class='js-toDoList'>
